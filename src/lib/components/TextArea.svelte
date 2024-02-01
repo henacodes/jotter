@@ -1,1 +1,9 @@
-<div class="  w-full flex-[0.8] bg-base-300"></div>
+<script>
+	import filesStore from '../../store/filesStore';
+	import Tabs from './Tabs.svelte';
+	let textInput = '';
+</script>
+
+<div class=" flex-[0.8]">
+	<Tabs />
+</div>
