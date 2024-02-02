@@ -7,7 +7,6 @@
 	let fileName = '';
 
 	const handleFileCreate = () => {
-		console.log('clicked');
 		if (!fileName) {
 			return;
 		}
@@ -32,17 +31,25 @@
 				openFile: newFile
 			};
 		});
+		fileName = '';
 	};
 	const handleFileDelete = () => {
-		const fileId = $filesStore.openFile.id;
-		filesStore.update((curr) => {
-			return {
-				...curr,
-				tabs: curr.tabs.filter((x) => x.id !== fileId),
-				files: curr.files.filter((x) => x.id !== fileId),
-				openFile: {}
-			};
-		});
+		if ($filesStore.openFile.id) {
+			const fileId = $filesStore.openFile.id;
+			filesStore.update((curr) => {
+				return {
+					...curr,
+					tabs: curr.tabs.filter((x) => x.id !== fileId),
+					files: curr.files.filter((x) => x.id !== fileId)
+				};
+			});
+			filesStore.update((curr) => {
+				return {
+					...curr,
+					openFile: curr.tabs.length ? curr.tabs[0] : {}
+				};
+			});
+		}
 	};
 </script>
 
@@ -54,7 +61,10 @@
 		<button class=" mx-3 btn btn-square">
 			<ArrowCounterClockwise size={20} />
 		</button>
-		<button class=" mx-3 btn btn-square" onclick="delete_file_modal.showModal()">
+		<button
+			class=" mx-3 btn btn-square"
+			onclick={$filesStore.openFile?.id ? 'delete_file_modal.showModal()' : ''}
+		>
 			<Trash size={20} />
 		</button>
 	</div>
