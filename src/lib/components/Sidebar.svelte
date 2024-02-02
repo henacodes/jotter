@@ -17,23 +17,21 @@
 			return;
 		}
 		const extension = parts.pop();
-		console.log(extension);
+		const newFile = {
+			name: fileName,
+			extension,
+			content: '',
+			id: uuidv4(),
+			timeCreated: Date.now()
+		};
 		filesStore.update((curr) => {
 			return {
 				...curr,
-				files: [
-					...curr.files,
-					{
-						name: fileName,
-						extension,
-						content: '',
-						id: uuidv4(),
-						timeCreated: Date.now()
-					}
-				]
+				files: [...curr.files, newFile],
+				tabs: [...curr.tabs, newFile],
+				openFile: newFile
 			};
 		});
-		console.log('after updates', $filesStore);
 	};
 </script>
 

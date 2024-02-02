@@ -1,6 +1,7 @@
 <script>
 	import { onMount } from 'svelte';
 	import filesStore from '../../store/filesStore';
+	import Prism from 'prismjs';
 	import Tabs from './Tabs.svelte';
 	let textInput = '';
 
@@ -25,6 +26,21 @@
 			textarea.addEventListener('scroll', updateLineNumbers);
 		}
 	});
+
+	// The code snippet you want to highlight, as a string
+	const code = `var data = 1;`;
+
+	// Returns a highlighted HTML string
+	const htmlCode = Prism.highlight(code, Prism.languages.javascript, 'javascript');
+	console.log(htmlCode);
+
+	let container;
+
+	onMount(() => {
+		if (window) {
+			container.innerHTML = htmlCode;
+		}
+	});
 </script>
 
 <div class=" flex-[0.8]">
@@ -36,10 +52,6 @@
 				<span class="flex-grow" bind:this={lineNumbers}></span>
 			</div>
 		</div>
-		<textarea
-			bind:this={textarea}
-			id="myTextarea"
-			class="flex-grow px-4 py-2 resize-none bg-base-300 focus:outline-none"
-		></textarea>
+		<div bind:this={container}></div>
 	</div>
 </div>

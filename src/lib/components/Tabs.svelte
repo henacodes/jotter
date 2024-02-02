@@ -1,37 +1,31 @@
 <script>
 	import filesStore from '../../store/filesStore';
+	import returnFileIcon from '../returnFileIcon';
+	import { X } from 'phosphor-svelte';
+
+	const closeTab = (id) => {
+		filesStore.update((curr) => {
+			return {
+				...curr,
+				tabs: curr.tabs.filter((x) => x.id !== id)
+			};
+		});
+	};
 </script>
 
 <div class=" flex w-[80vw] overflow-auto">
-	<button class="btn rounded-none w-[7rem] btn-square">Tab 1</button>
-	<button class="btn rounded-none w-[7rem] btn-square">Tab 1</button>
-	<button class="btn rounded-none w-[7rem] btn-square">Tab 1</button>
-	<button class="btn rounded-none w-[7rem] btn-square">Tab 1</button>
-	<button class="btn rounded-none w-[7rem] btn-square">Tab 1</button>
-	<button class="btn rounded-none w-[7rem] btn-square">Tab 1</button>
-	<button class="btn rounded-none w-[7rem] btn-square">Tab 1</button>
-	<button class="btn rounded-none w-[7rem] btn-square">Tab 1</button>
-	<button class="btn rounded-none w-[7rem] btn-square">Tab 1</button>
-	<button class="btn rounded-none w-[7rem] btn-square">Tab 1</button>
-	<button class="btn rounded-none w-[7rem] btn-square">Tab 1</button>
-	<button class="btn rounded-none w-[7rem] btn-square">Tab 1</button>
-	<button class="btn rounded-none w-[7rem] btn-square">Tab 1</button><button
-		class="btn rounded-none w-[7rem] btn-square">Tab 1</button
-	>
-	<button class="btn rounded-none w-[7rem] btn-square">Tab 1</button>
-	<button class="btn rounded-none w-[7rem] btn-square">Tab 1</button>
-	<button class="btn rounded-none w-[7rem] btn-square">Tab 1</button>
-	<button class="btn rounded-none w-[7rem] btn-square">Tab 1</button>
-	<button class="btn rounded-none w-[7rem] btn-square">Tab 1</button>
-	<button class="btn rounded-none w-[7rem] btn-square">Tab 1</button>
-	<button class="btn rounded-none w-[7rem] btn-square">Tab 1</button>
-	<button class="btn rounded-none w-[7rem] btn-square">Tab 1</button>
-	<button class="btn rounded-none w-[7rem] btn-square">Tab 1</button>
-	<button class="btn rounded-none w-[7rem] btn-square">Tab 1</button>
-	<button class="btn rounded-none w-[7rem] btn-square">Tab 1</button>
-	<button class="btn rounded-none w-[7rem] btn-square">Tab 1</button>
-	<button class="btn rounded-none w-[7rem] btn-square">Tab 1</button>
-	<button class="btn rounded-none w-[7rem] btn-square">Tab 1</button>
-	<button class="btn rounded-none w-[7rem] btn-square">Tab 1</button>
-	<button class="btn rounded-none w-[7rem] btn-square">Tab 1</button>
+	{#each $filesStore.tabs as tab}
+		<button
+			class={'btn rounded-none min-w-[15rem] flex items-center justify-between btn-square px-4 ' +
+				($filesStore.openFile.id === tab.id ? 'border-b-2 border-b-primary' : ' ')}
+		>
+			<div class=" flex items-center">
+				<img src={returnFileIcon(tab.extension)} class=" w-[20px]" alt="" />
+				<p class=" px-3">{tab.name}</p>
+			</div>
+			<p on:click={() => closeTab(tab.id)}>
+				<X size={20} class=" bg-slate-700  p-1 rounded-full hover:scale-110  hover:bg-black     " />
+			</p>
+		</button>
+	{/each}
 </div>
