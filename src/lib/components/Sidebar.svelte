@@ -33,25 +33,37 @@
 			};
 		});
 	};
+	const handleFileDelete = () => {
+		const fileId = $filesStore.openFile.id;
+		filesStore.update((curr) => {
+			return {
+				...curr,
+				tabs: curr.tabs.filter((x) => x.id !== fileId),
+				files: curr.files.filter((x) => x.id !== fileId),
+				openFile: {}
+			};
+		});
+	};
 </script>
 
 <div class="  w-full flex-[0.2] h-[100%] border-r border-slate-700 p-6">
-	<div class=" flex items-center justify-between">
-		<button class="btn btn-square" onclick="create_file_modal.showModal()">
+	<div class=" flex items-center">
+		<button class=" mx-3 btn btn-square" onclick="create_file_modal.showModal()">
 			<FilePlus size={20} />
 		</button>
-		<button class="btn btn-square">
+		<button class=" mx-3 btn btn-square">
 			<ArrowCounterClockwise size={20} />
 		</button>
-		<button class="btn btn-square">
+		<button class=" mx-3 btn btn-square" onclick="delete_file_modal.showModal()">
 			<Trash size={20} />
 		</button>
 	</div>
-
-	<Files />
+	{#if $filesStore.files.length}
+		<Files />
+	{/if}
 </div>
 
-<!-- Modals -->
+<!-- Create file Modals -->
 <dialog id="create_file_modal" class="modal">
 	<div class="modal-box">
 		<h3 class="font-bold text-lg">Enter the file name</h3>
@@ -64,6 +76,22 @@
 		<form method="dialog" class="modal-backdrop flex my-3 justify-end">
 			<button class="btn mx-3 btn-outline btn-secondary">Cancel</button>
 			<button on:click={handleFileCreate} class="btn mx-3 btn-outline btn-accent">Ok</button>
+		</form>
+	</div>
+</dialog>
+
+<!-- Delete file modal -->
+
+<dialog id="delete_file_modal" class="modal">
+	<div class="modal-box">
+		<h3 class="font-bold text-lg">
+			Are you sure you wanna delete the file <span class=" text-warning"
+				>{$filesStore.openFile?.name}</span
+			>
+		</h3>
+		<form method="dialog" class="modal-backdrop flex my-3 justify-end">
+			<button class="btn mx-3 btn-outline btn-secondary">No</button>
+			<button on:click={handleFileDelete} class="btn mx-3 btn-outline btn-accent">Yes</button>
 		</form>
 	</div>
 </dialog>

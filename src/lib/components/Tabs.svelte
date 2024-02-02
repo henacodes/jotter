@@ -10,6 +10,14 @@
 				tabs: curr.tabs.filter((x) => x.id !== id)
 			};
 		});
+		if (id === $filesStore.openFile.id) {
+			filesStore.update((curr) => {
+				return {
+					...curr,
+					openFile: curr.tabs.length ? curr.tabs[0] : {}
+				};
+			});
+		}
 	};
 </script>
 
