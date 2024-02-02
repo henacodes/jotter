@@ -15,9 +15,3 @@
 	background-color: #888;
 	border-radius: 15px;
 }
-
-/* Firefox */
-/* Please note that Firefox only supports custom scrollbars on the dark theme.
-     On the light theme, the default scrollbar will be displayed. */
-scrollbar-color: #888 transparent;
-scrollbar-width: thin;
