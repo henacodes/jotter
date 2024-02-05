@@ -5,91 +5,16 @@
 	import Tabs from './Tabs.svelte';
 	const content = ['Hell world', 'second line', 'sdfsdfs', 'sdfsdf'];
 
-	const handleInput = (e, index) => {
-		filesStore.update((curr) => {
-			return {
-				...curr,
-				openFile: {
-					...curr.openFile,
-					content: curr.openFile.content.map((line, i) => {
-						if (i === index) {
-							return e.target.value;
-						}
-						return line;
-					})
-				}
-			};
-		});
-
-		filesStore.update((curr) => {
-			return {
-				...curr,
-				files: curr.files.map((file) => {
-					if (file.id !== curr.openFile) {
-						return file;
-					}
-					return $filesStore.openFile;
-				})
-			};
-		});
-	};
+	const handleInput = (e, index) => {};
 
 	onMount(() => {
 		if (window) {
 			document.addEventListener('keydown', (e) => {
 				if (e.key === 'Enter') {
-					const { activeLine } = $filesStore;
-					if (activeLine >= 0) {
-						console.log('active');
-						console.log($filesStore.openFile);
-						const alreadyOpenFile = $filesStore.openFile;
-						const openFile =
-							alreadyOpenFile.content.length - 1 === activeLine
-								? { ...alreadyOpenFile, content: [...alreadyOpenFile.content, ''] }
-								: {
-										...alreadyOpenFile,
-										content: alreadyOpenFile.content
-											.slice(0, activeLine)
-											.concat('', alreadyOpenFile.content.slice(activeLine))
-									};
-						console.log('newllly', openFile);
-						filesStore.update((curr) => {
-							return {
-								...curr,
-								openFile: openFile,
-								activeLine: activeLine === 0 ? activeLine + 2 : activeLine + 1
-							};
-						});
-						filesStore.update((curr) => {
-							return {
-								...curr,
-								files: curr.files.map((f) => {
-									if (f.id !== openFile.id) {
-										return f;
-									}
-									return openFile;
-								})
-							};
-						});
-						setTimeout(() => {
-							document.getElementById(`input_${activeLine}`).focus();
-						}, 20);
-
-						console.log($filesStore);
-						//
-					}
 				}
 			});
 		}
 	});
-
-	/* $: {
-		if ($filesStore.activeLine >= 0) {
-			if (browser) {
-				document.getElementById(`input_${$filesStore.activeLine}`).focus();
-			}
-		}
-	} */
 </script>
 
 <div class="w-[90vw]">

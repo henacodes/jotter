@@ -5,17 +5,7 @@
 	onMount(() => {
 		console.log($filesStore);
 	});
-	const openFile = (file) => {
-		const fileInStore = $filesStore.files.filter((x) => x.id === file.id)[0];
-		filesStore.update((curr) => {
-			return {
-				...curr,
-				tabs: curr.tabs.filter((x) => x.id === file.id).length ? curr.tabs : [...curr.tabs, file],
-				openFile: fileInStore,
-				activeLine: fileInStore.content.length - 1
-			};
-		});
-	};
+	const openFile = (file) => {};
 </script>
 
 <ul class="menu bg-base-200 rounded-none mt-4">
