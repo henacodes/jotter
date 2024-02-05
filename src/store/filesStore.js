@@ -3,5 +3,6 @@ import { writable } from 'svelte/store';
 export default writable({
 	files: [],
 	openFile: {},
-	tabs: []
+	tabs: [],
+	activeLine: -1
 });

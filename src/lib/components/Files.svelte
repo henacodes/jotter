@@ -10,7 +10,8 @@
 			return {
 				...curr,
 				tabs: curr.tabs.filter((x) => x.id === file.id).length ? curr.tabs : [...curr.tabs, file],
-				openFile: file
+				openFile: file,
+				activeLine: curr.openFile.content.length - 1
 			};
 		});
 	};

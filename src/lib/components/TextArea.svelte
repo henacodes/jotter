@@ -1,57 +1,73 @@
 <script>
 	import { onMount } from 'svelte';
 	import filesStore from '../../store/filesStore';
-	import Prism from 'prismjs';
+	import { browser } from '$app/environment';
 	import Tabs from './Tabs.svelte';
-	let textInput = '';
+	const content = ['Hell world', 'second line', 'sdfsdfs', 'sdfsdf'];
 
-	let textarea;
-	let lineNumbers;
-
-	function updateLineNumbers() {
-		const lines = textarea.value.split('\n');
-		const lineCount = lines.length;
-
-		let lineNumbersContent = '';
-		for (let i = 1; i <= lineCount; i++) {
-			lineNumbersContent += i + '<br>';
-		}
-
-		lineNumbers.innerHTML = lineNumbersContent;
-	}
+	const handleInput = (e) => {};
 
 	onMount(() => {
 		if (window) {
-			textarea.addEventListener('input', updateLineNumbers);
-			textarea.addEventListener('scroll', updateLineNumbers);
+			document.addEventListener('keydown', (e) => {
+				if (e.key === 'Enter') {
+					const { activeLine } = $filesStore;
+					if (activeLine >= 0) {
+						console.log('active');
+						console.log($filesStore.openFile);
+						const alreadyOpenFile = $filesStore.openFile;
+						const openFile =
+							alreadyOpenFile.content.length - 1 === activeLine
+								? { ...alreadyOpenFile, content: [...alreadyOpenFile.content, ''] }
+								: {
+										...alreadyOpenFile,
+										content: alreadyOpenFile.content
+											.slice(0, activeLine)
+											.concat('', alreadyOpenFile.content.slice(activeLine))
+									};
+						console.log('newllly', openFile);
+						filesStore.update((curr) => {
+							return {
+								...curr,
+								openFile: openFile,
+								activeLine: activeLine === 0 ? activeLine + 2 : activeLine + 1
+							};
+						});
+						console.log($filesStore);
+						setTimeout(() => {
+							document.getElementById(`input_${activeLine}`).focus();
+						}, 20);
+						//
+					}
+				}
+			});
 		}
 	});
 
-	// The code snippet you want to highlight, as a string
-	const code = `var data = 1;`;
-
-	// Returns a highlighted HTML string
-	const htmlCode = Prism.highlight(code, Prism.languages.javascript, 'javascript');
-	console.log(htmlCode);
-
-	let container;
-
-	onMount(() => {
-		if (window) {
-			container.innerHTML = htmlCode;
+	/* $: {
+		if ($filesStore.activeLine >= 0) {
+			if (browser) {
+				document.getElementById(`input_${$filesStore.activeLine}`).focus();
+			}
 		}
-	});
+	} */
 </script>
 
-<div class=" flex-[0.8]">
+<div class="w-[90vw]">
 	<Tabs />
 
-	<div class="flex">
-		<div class="w-12 bg-base-300 text-center text-gray-500">
-			<div class="h-full flex flex-col justify-start">
-				<span class="flex-grow" bind:this={lineNumbers}></span>
+	{#if $filesStore.openFile.id}
+		{#each $filesStore.openFile.content as line, i}
+			<div class=" flex w-full items-center justify-center">
+				<p class=" flex-[0.03] text-center">{i + 1}</p>
+				<input
+					id={`input_${i}`}
+					on:input={handleInput}
+					type="text"
+					class=" input focus:outline-none focus:border-none flex-[0.97] h-[1rem]"
+					value={line}
+				/>
 			</div>
-		</div>
-		<div bind:this={container}></div>
-	</div>
+		{/each}
+	{/if}
 </div>

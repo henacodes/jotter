@@ -1,5 +1,5 @@
 <script>
-	import { FilePlus, ArrowCounterClockwise, Trash } from 'phosphor-svelte';
+	import { FilePlus, ArrowCounterClockwise, Trash, FloppyDisk } from 'phosphor-svelte';
 	import filesStore from '../../store/filesStore';
 	import Files from './Files.svelte';
 	import { v4 as uuidv4 } from 'uuid';
@@ -19,7 +19,7 @@
 		const newFile = {
 			name: fileName,
 			extension,
-			content: '',
+			content: ['Write your code here'],
 			id: uuidv4(),
 			timeCreated: Date.now()
 		};
@@ -28,7 +28,8 @@
 				...curr,
 				files: [...curr.files, newFile],
 				tabs: [...curr.tabs, newFile],
-				openFile: newFile
+				openFile: newFile,
+				activeLine: 0
 			};
 		});
 		fileName = '';
@@ -58,14 +59,15 @@
 		<button class=" mx-3 btn btn-square" onclick="create_file_modal.showModal()">
 			<FilePlus size={20} />
 		</button>
-		<button class=" mx-3 btn btn-square">
-			<ArrowCounterClockwise size={20} />
-		</button>
+
 		<button
 			class=" mx-3 btn btn-square"
 			onclick={$filesStore.openFile?.id ? 'delete_file_modal.showModal()' : ''}
 		>
 			<Trash size={20} />
+		</button>
+		<button class=" mx-3 btn btn-square" onclick="file_save">
+			<FloppyDisk size={20} />
 		</button>
 	</div>
 	{#if $filesStore.files.length}
@@ -73,7 +75,7 @@
 	{/if}
 </div>
 
-<!-- Create file Modals -->
+<!-- Create file Modal -->
 <dialog id="create_file_modal" class="modal">
 	<div class="modal-box">
 		<h3 class="font-bold text-lg">Enter the file name</h3>
@@ -81,7 +83,7 @@
 			bind:value={fileName}
 			type="text"
 			placeholder="Type here"
-			class="input input-bordered w-full max-w-xs input-sm focus:outline-none focus:input-accent my-3 py-6"
+			class="input input-bordered w-full max-w-xs input-sm focus:outline-none focus:border-accent border-2 my-3 py-6"
 		/>
 		<form method="dialog" class="modal-backdrop flex my-3 justify-end">
 			<button class="btn mx-3 btn-outline btn-secondary">Cancel</button>
