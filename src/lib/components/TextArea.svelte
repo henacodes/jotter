@@ -5,7 +5,28 @@
 	import Tabs from './Tabs.svelte';
 	const content = ['Hell world', 'second line', 'sdfsdfs', 'sdfsdf'];
 
-	const handleInput = (e) => {};
+	const handleInput = (e, index) => {
+		filesStore.update((curr) => {
+			return {
+				...curr,
+				openFile: {
+					...curr.openFile,
+					content: curr.openFile.content.map((line, i) => {
+						if (i === index) {
+							return e.target.value;
+						}
+						return line;
+					})
+				},
+				files: curr.files.map((file) => {
+					if (file.id === curr.openFile) {
+						return file;
+					}
+					return $filesStore.openFile;
+				})
+			};
+		});
+	};
 
 	onMount(() => {
 		if (window) {
@@ -62,7 +83,7 @@
 				<p class=" flex-[0.03] text-center">{i + 1}</p>
 				<input
 					id={`input_${i}`}
-					on:input={handleInput}
+					on:input={(e) => handleInput(e, i)}
 					type="text"
 					class=" input focus:outline-none focus:border-none flex-[0.97] h-[1rem]"
 					value={line}

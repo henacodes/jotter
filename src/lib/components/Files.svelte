@@ -11,7 +11,7 @@
 				...curr,
 				tabs: curr.tabs.filter((x) => x.id === file.id).length ? curr.tabs : [...curr.tabs, file],
 				openFile: file,
-				activeLine: curr.openFile.content.length - 1
+				activeLine: curr.openFile?.content?.length - 1 || 0
 			};
 		});
 	};
