@@ -17,9 +17,15 @@
 						}
 						return line;
 					})
-				},
+				}
+			};
+		});
+
+		filesStore.update((curr) => {
+			return {
+				...curr,
 				files: curr.files.map((file) => {
-					if (file.id === curr.openFile) {
+					if (file.id !== curr.openFile) {
 						return file;
 					}
 					return $filesStore.openFile;
@@ -54,10 +60,22 @@
 								activeLine: activeLine === 0 ? activeLine + 2 : activeLine + 1
 							};
 						});
-						console.log($filesStore);
+						filesStore.update((curr) => {
+							return {
+								...curr,
+								files: curr.files.map((f) => {
+									if (f.id !== openFile.id) {
+										return f;
+									}
+									return openFile;
+								})
+							};
+						});
 						setTimeout(() => {
 							document.getElementById(`input_${activeLine}`).focus();
 						}, 20);
+
+						console.log($filesStore);
 						//
 					}
 				}
