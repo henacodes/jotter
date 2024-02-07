@@ -83,7 +83,10 @@ export const persistOpenFileWithFile = (file) => {
 };
 
 export const addNextNewLine = (index) => {
-	let content = $filesStore.openFile.content;
+	let content;
+	filesStore.subscribe((store) => {
+		content = store.openFile.content;
+	});
 	if (content.length - 1 === index) {
 		filesStore.update((curr) => {
 			return {
@@ -91,7 +94,8 @@ export const addNextNewLine = (index) => {
 				openFile: {
 					...curr.openFile,
 					content: [...curr.openFile.content, '']
-				}
+				},
+				activeLine: curr.activeLine + 1
 			};
 		});
 	} else {

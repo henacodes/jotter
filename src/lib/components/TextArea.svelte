@@ -3,17 +3,37 @@
 	import filesStore from '../../store/filesStore';
 	import { browser } from '$app/environment';
 	import Tabs from './Tabs.svelte';
-	const content = ['Hell world', 'second line', 'sdfsdfs', 'sdfsdf'];
+	import { addNextNewLine } from '../fileStoreFuntions';
 
-	const handleInput = (e, index) => {};
+	const handleInput = (e, index) => {
+		filesStore.update((curr) => {
+			return {
+				...curr,
+				activeLine: parseInt(parseInt(index))
+			};
+		});
+	};
+
+	const handleEnterClick = (e) => {
+		const openFile = $filesStore.openFile;
+		if (e.key === 'Enter') {
+			if (openFile.id) {
+				addNextNewLine($filesStore.activeLine);
+				setTimeout(() => {
+					document.getElementById(`input_${$filesStore.activeLine}`).focus();
+				}, 20);
+			}
+		}
+	};
 
 	onMount(() => {
 		if (window) {
-			document.addEventListener('keydown', (e) => {
-				if (e.key === 'Enter') {
-				}
-			});
+			document.addEventListener('keydown', handleEnterClick);
 		}
+
+		return () => {
+			document.removeEventListener('keydown', handleEnterClick);
+		};
 	});
 </script>
 
