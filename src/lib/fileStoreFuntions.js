@@ -1,4 +1,27 @@
 import filesStore from '../store/filesStore';
+import { v4 as uuidv4 } from 'uuid';
+
+export const createFile = (fileName) => {
+	const parts = fileName.split('.');
+	if (!parts.length) {
+		return;
+	}
+	const extension = parts.pop();
+	const newFile = {
+		name: fileName,
+		extension,
+		content: ['Write your code here'],
+		id: uuidv4(),
+		timeCreated: Date.now()
+	};
+
+	filesStore.update((curr) => {
+		return {
+			...curr,
+			files: [...curr.files, newFile]
+		};
+	});
+};
 
 // add file to openFile property of the store and set the active line to be the last line
 export const openFile = (file) => {
@@ -6,7 +29,16 @@ export const openFile = (file) => {
 		return {
 			...curr,
 			openFile: file,
-			activeLine: file.contents.length - 1
+			activeLine: file.content.length - 1
+		};
+	});
+};
+
+export const addToTabs = (file) => {
+	filesStore.update((curr) => {
+		return {
+			...curr,
+			tabs: curr.tabs.filter((x) => x.id === file.id).length ? curr.tabs : [...curr.tabs, file]
 		};
 	});
 };

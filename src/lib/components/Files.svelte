@@ -2,16 +2,18 @@
 	import { onMount } from 'svelte';
 	import filesStore from '../../store/filesStore';
 	import returnFileIcon from '../returnFileIcon';
-	onMount(() => {
-		console.log($filesStore);
-	});
-	const openFile = (file) => {};
+	import { openFile, addToTabs } from '../fileStoreFuntions';
+	const handleFileOpen = (file) => {
+		//console.log(file);
+		openFile(file);
+		addToTabs(file);
+	};
 </script>
 
 <ul class="menu bg-base-200 rounded-none mt-4">
 	{#each $filesStore.files as file}
 		<li
-			on:click={() => openFile(file)}
+			on:click={() => handleFileOpen(file)}
 			class={'my-2 ' + ($filesStore.openFile.id === file.id ? ' border-l  border-l-primary' : ' ')}
 		>
 			<a class=" ">

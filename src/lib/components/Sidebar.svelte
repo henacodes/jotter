@@ -2,8 +2,9 @@
 	import { FilePlus, ArrowCounterClockwise, Trash, FloppyDisk } from 'phosphor-svelte';
 	import filesStore from '../../store/filesStore';
 	import Files from './Files.svelte';
-	import { v4 as uuidv4 } from 'uuid';
 
+	// store functions
+	import { createFile, deleteFile } from '../fileStoreFuntions';
 	let fileName = '';
 
 	const handleFileCreate = () => {
@@ -11,45 +12,13 @@
 			return;
 		}
 
-		const parts = fileName.split('.');
-		if (!parts.length) {
-			return;
-		}
-		const extension = parts.pop();
-		const newFile = {
-			name: fileName,
-			extension,
-			content: ['Write your code here'],
-			id: uuidv4(),
-			timeCreated: Date.now()
-		};
-		filesStore.update((curr) => {
-			return {
-				...curr,
-				files: [...curr.files, newFile],
-				tabs: [...curr.tabs, newFile],
-				openFile: newFile,
-				activeLine: 0
-			};
-		});
+		createFile(fileName);
 		fileName = '';
 	};
 	const handleFileDelete = () => {
+		const openFileId = $filesStore.openFile.id;
 		if ($filesStore.openFile.id) {
-			const fileId = $filesStore.openFile.id;
-			filesStore.update((curr) => {
-				return {
-					...curr,
-					tabs: curr.tabs.filter((x) => x.id !== fileId),
-					files: curr.files.filter((x) => x.id !== fileId)
-				};
-			});
-			filesStore.update((curr) => {
-				return {
-					...curr,
-					openFile: curr.tabs.length ? curr.tabs[0] : {}
-				};
-			});
+			deleteFile(openFileId);
 		}
 	};
 </script>

@@ -2,21 +2,12 @@
 	import filesStore from '../../store/filesStore';
 	import returnFileIcon from '../returnFileIcon';
 	import { X } from 'phosphor-svelte';
-
+	import { closeFile, openFile } from '../fileStoreFuntions';
 	const closeTab = (id) => {
-		filesStore.update((curr) => {
-			return {
-				...curr,
-				tabs: curr.tabs.filter((x) => x.id !== id)
-			};
-		});
-		if (id === $filesStore.openFile.id) {
-			filesStore.update((curr) => {
-				return {
-					...curr,
-					openFile: curr.tabs.length ? curr.tabs[0] : {}
-				};
-			});
+		closeFile(id);
+		const tabs = $filesStore.tabs;
+		if (tabs.length) {
+			openFile(tabs[0]);
 		}
 	};
 </script>
