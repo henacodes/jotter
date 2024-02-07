@@ -3,7 +3,7 @@
 	import filesStore from '../../store/filesStore';
 	import { browser } from '$app/environment';
 	import Tabs from './Tabs.svelte';
-	import { addNextNewLine, updateContent } from '../fileStoreFuntions';
+	import { addNextNewLine, updateContent, removeCurrentLine } from '../fileStoreFuntions';
 
 	const handleInput = (e, index) => {
 		filesStore.update((curr) => {
@@ -14,7 +14,6 @@
 		});
 
 		updateContent(e.target.value, index);
-		console.log($filesStore.openFile.content);
 	};
 
 	const handleEnterClick = (e) => {
@@ -29,6 +28,17 @@
 		}
 	};
 
+	const handleBackspace = (e, index) => {
+		const { value } = e.target;
+		if (e.key === 'Backspace') {
+			if (value.length === 0) {
+				removeCurrentLine(index);
+				setTimeout(() => {
+					document.getElementById(`input_${index - 1}`).focus();
+				}, 20);
+			}
+		}
+	};
 	onMount(() => {
 		if (window) {
 			document.addEventListener('keydown', handleEnterClick);
@@ -48,6 +58,7 @@
 			<div class=" flex w-full items-center justify-center">
 				<p class=" flex-[0.03] text-center">{i + 1}</p>
 				<input
+					on:keydown={(e) => handleBackspace(e, i)}
 					id={`input_${i}`}
 					on:input={(e) => handleInput(e, i)}
 					type="text"

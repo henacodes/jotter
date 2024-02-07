@@ -116,7 +116,10 @@ export const addNextNewLine = (index) => {
 
 export const removeCurrentLine = (index) => {
 	if (index > 0) {
-		let content = $filesStore.openFile.content;
+		let content;
+		filesStore.subscribe((curr) => {
+			content = curr.openFile.content;
+		});
 		let prevContent = content.slice(0, index);
 		let nextContent = content.slice(index + 1);
 
