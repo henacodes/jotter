@@ -139,7 +139,7 @@ export const updateContent = (content, index) => {
 			...curr,
 			openFile: {
 				...curr.openFile,
-				content: content.map((line, i) => {
+				content: curr.openFile.content.map((line, i) => {
 					if (i === index) {
 						return content;
 					}

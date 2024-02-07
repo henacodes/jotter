@@ -3,7 +3,7 @@
 	import filesStore from '../../store/filesStore';
 	import { browser } from '$app/environment';
 	import Tabs from './Tabs.svelte';
-	import { addNextNewLine } from '../fileStoreFuntions';
+	import { addNextNewLine, updateContent } from '../fileStoreFuntions';
 
 	const handleInput = (e, index) => {
 		filesStore.update((curr) => {
@@ -12,6 +12,9 @@
 				activeLine: parseInt(parseInt(index))
 			};
 		});
+
+		updateContent(e.target.value, index);
+		console.log($filesStore.openFile.content);
 	};
 
 	const handleEnterClick = (e) => {
