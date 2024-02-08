@@ -30,7 +30,8 @@
 
 	const handleBackspace = (e, index) => {
 		const { value } = e.target;
-		if (e.key === 'Backspace') {
+
+		if (e.key === 'Backspace' && index > 0) {
 			if (value.length === 0) {
 				removeCurrentLine(index);
 				setTimeout(() => {
