@@ -40,6 +40,15 @@
 			}
 		}
 	};
+
+	const handleFocus = (index) => {
+		filesStore.update((curr) => {
+			return {
+				...curr,
+				activeLine: index
+			};
+		});
+	};
 	onMount(() => {
 		if (window) {
 			document.addEventListener('keydown', handleEnterClick);
@@ -59,6 +68,7 @@
 			<div class=" flex w-full items-center justify-center">
 				<p class=" flex-[0.03] text-center">{i + 1}</p>
 				<input
+					on:focus={() => handleFocus(i)}
 					on:keydown={(e) => handleBackspace(e, i)}
 					id={`input_${i}`}
 					on:input={(e) => handleInput(e, i)}
