@@ -151,4 +151,19 @@ export const updateContent = (content, index) => {
 			}
 		};
 	});
+	let updatedFile;
+	filesStore.subscribe((curr) => {
+		updatedFile = curr.openFile;
+	});
+	filesStore.update((curr) => {
+		return {
+			...curr,
+			files: curr.files.map((f) => {
+				if (f.id === updatedFile.id) {
+					return updatedFile;
+				}
+				return f;
+			})
+		};
+	});
 };

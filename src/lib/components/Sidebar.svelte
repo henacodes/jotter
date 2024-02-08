@@ -4,7 +4,7 @@
 	import Files from './Files.svelte';
 
 	// store functions
-	import { createFile, deleteFile } from '../fileStoreFuntions';
+	import { createFile, deleteFile, openFile, addToTabs } from '../fileStoreFuntions';
 	let fileName = '';
 
 	const handleFileCreate = () => {
@@ -13,6 +13,9 @@
 		}
 
 		createFile(fileName);
+		let file = $filesStore.files[$filesStore.files.length - 1];
+		openFile(file);
+		addToTabs(file);
 		fileName = '';
 	};
 	const handleFileDelete = () => {
