@@ -163,6 +163,12 @@ export const updateContent = (content, index) => {
 					return updatedFile;
 				}
 				return f;
+			}),
+			tabs: curr.tabs.map((t) => {
+				if (t.id === updatedFile.id) {
+					return updatedFile;
+				}
+				return t;
 			})
 		};
 	});

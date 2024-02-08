@@ -15,6 +15,7 @@
 <div class=" flex w-[80vw] overflow-auto">
 	{#each $filesStore.tabs as tab}
 		<button
+			on:click={() => openFile(tab)}
 			class={'btn rounded-none min-w-[15rem] flex items-center justify-between btn-square px-4 ' +
 				($filesStore.openFile.id === tab.id ? 'border-b-2 border-b-primary' : ' ')}
 		>

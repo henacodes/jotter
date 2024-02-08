@@ -62,7 +62,7 @@
 					id={`input_${i}`}
 					on:input={(e) => handleInput(e, i)}
 					type="text"
-					class=" input focus:outline-none focus:border-none flex-[0.97] h-[1rem]"
+					class=" input focus:outline-none focus:border-none flex-[0.97] h-[1.5rem]"
 					value={line}
 				/>
 			</div>
