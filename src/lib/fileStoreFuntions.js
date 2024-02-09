@@ -66,6 +66,15 @@ export const deleteFile = (id) => {
 			openFile: curr.openFile.id === id ? {} : curr.openFile
 		};
 	});
+
+	/// open another tab if it exists
+
+	filesStore.update((curr) => {
+		return {
+			...curr,
+			openFile: curr.tabs.length ? curr.tabs[0] : {}
+		};
+	});
 };
 
 export const persistOpenFileWithFile = (file) => {
