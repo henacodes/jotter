@@ -1,7 +1,7 @@
 <script>
 	import { onMount } from 'svelte';
 	import filesStore from '../../store/filesStore';
-	import returnFileIcon from '../returnFileIcon';
+	import { returnFileIcon } from '../helpers';
 	import { openFile, addToTabs } from '../fileStoreFuntions';
 	const handleFileOpen = (file) => {
 		//console.log(file);

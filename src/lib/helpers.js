@@ -1,4 +1,4 @@
-export default (ext) => {
+export const returnFileIcon = (ext) => {
 	switch (ext) {
 		case 'js':
 			return 'https://cdn.jsdelivr.net/gh/devicons/devicon/icons/javascript/javascript-plain.svg';
@@ -35,3 +35,43 @@ export default (ext) => {
 			return '';
 	}
 };
+
+export function getMimeType(format) {
+	switch (format) {
+		case 'js':
+			return 'javascript';
+		case 'py':
+			return 'python';
+		case 'rb':
+			return 'ruby';
+		case 'java':
+			return 'java';
+		case 'cpp':
+			return 'cpp';
+		case 'cs':
+			return 'csharp';
+		case 'php':
+			return 'php';
+		case 'swift':
+			return 'swift';
+		case 'go':
+			return 'golang';
+		case 'rust':
+			return 'rust';
+		case 'ts':
+			return 'typescript';
+		case 'html':
+			return 'html';
+		case 'css':
+			return 'css';
+		case 'xml':
+			return 'xml';
+		case 'json':
+			return 'json';
+		case 'sql':
+			return 'sql';
+		// Add more cases for other file formats as needed
+		default:
+			return 'plain'; // Default to plain text if the format is not recognized
+	}
+}

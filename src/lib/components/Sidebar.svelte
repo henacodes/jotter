@@ -1,7 +1,14 @@
 <script>
-	import { FilePlus, ArrowCounterClockwise, Trash, FloppyDisk } from 'phosphor-svelte';
+	import {
+		FilePlus,
+		ArrowCounterClockwise,
+		Trash,
+		FloppyDisk,
+		DownloadSimple
+	} from 'phosphor-svelte';
 	import filesStore from '../../store/filesStore';
 	import Files from './Files.svelte';
+	import { getMimeType } from '../helpers';
 
 	// store functions
 	import { createFile, deleteFile, openFile, addToTabs } from '../fileStoreFuntions';
@@ -24,6 +31,24 @@
 			deleteFile(openFileId);
 		}
 	};
+
+	function createAndDownloadFile(contentArray, fileName, fileExtension) {
+		const content = contentArray.join('\n');
+		const blob = new Blob([content], { type: `text/${getMimeType(fileExtension)}` });
+
+		const downloadLink = document.createElement('a');
+		downloadLink.href = URL.createObjectURL(blob);
+		downloadLink.download = fileName;
+
+		downloadLink.click();
+
+		URL.revokeObjectURL(downloadLink.href);
+	}
+
+	const handleDownload = () => {
+		const openFile = $filesStore.openFile;
+		createAndDownloadFile(openFile.content, openFile.name, openFile.extension);
+	};
 </script>
 
 <div class="  w-full flex-[0.2] h-[100%] border-r border-slate-700 p-6">
@@ -38,8 +63,11 @@
 		>
 			<Trash size={20} />
 		</button>
-		<button class=" mx-3 btn btn-square" onclick="file_save">
-			<FloppyDisk size={20} />
+		<button
+			onclick={$filesStore.openFile.id ? 'download_file_modal.showModal()' : ''}
+			class=" mx-3 btn btn-square"
+		>
+			<DownloadSimple size={20} />
 		</button>
 	</div>
 	{#if $filesStore.files.length}
@@ -76,6 +104,22 @@
 		<form method="dialog" class="modal-backdrop flex my-3 justify-end">
 			<button class="btn mx-3 btn-outline btn-secondary">No</button>
 			<button on:click={handleFileDelete} class="btn mx-3 btn-outline btn-accent">Yes</button>
+		</form>
+	</div>
+</dialog>
+
+<!-- Download file modal -->
+<dialog id="download_file_modal" class="modal">
+	<div class="modal-box">
+		<h3 class="font-bold text-lg">
+			Do you want to download the file ' <span class=" text-warning"
+				>{$filesStore.openFile?.name}</span
+			> '
+		</h3>
+		<form method="dialog" class="modal-backdrop flex my-3 justify-end">
+			<button class="btn mx-3 btn-outline btn-secondary">Cancel</button>
+
+			<button on:click={handleDownload} class=" btn btn-warning"> Download </button>
 		</form>
 	</div>
 </dialog>

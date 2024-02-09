@@ -1,6 +1,6 @@
 <script>
 	import filesStore from '../../store/filesStore';
-	import returnFileIcon from '../returnFileIcon';
+	import { returnFileIcon } from '../helpers';
 	import { X } from 'phosphor-svelte';
 	import { closeFile, openFile } from '../fileStoreFuntions';
 	const closeTab = (id) => {
