@@ -2,6 +2,20 @@ import filesStore from '../store/filesStore';
 import { v4 as uuidv4 } from 'uuid';
 
 export const createFile = (fileName) => {
+	let fileExists = false;
+	filesStore.subscribe((curr) => {
+		curr.files.map((f) => {
+			if (f.name === fileName) {
+				fileExists = true;
+			}
+		});
+	});
+
+	if (fileExists) {
+		console.log('file exists');
+		return;
+	}
+
 	const parts = fileName.split('.');
 	if (!parts.length) {
 		return;
