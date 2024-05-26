@@ -116,31 +116,45 @@ export const persistOpenFileWithFile = (file) => {
 	});
 };
 
-export const addNextNewLine = (index) => {
+[0, 1, 2, 3, 4, 5];
+
+export const addNextNewLine = (index, carretPosition) => {
 	let content;
 	filesStore.subscribe((store) => {
 		content = store.openFile.content;
 	});
 	if (content.length - 1 === index) {
+		// line 36 and 37 are for cases when user presses enter in the middle of the active line
+		// it will slice the current line and put the rest of the code on the next line
 		filesStore.update((curr) => {
 			return {
 				...curr,
 				openFile: {
 					...curr.openFile,
-					content: [...curr.openFile.content, '']
+					content: [
+						...curr.openFile.content.slice(0, curr.openFile.content.length - 1),
+						curr.openFile.content[curr.openFile.content.length - 1].slice(0, carretPosition),
+						curr.openFile.content[curr.openFile.content.length - 1].slice(carretPosition)
+					]
 				},
 				activeLine: curr.activeLine + 1
 			};
 		});
 	} else {
-		let prevContent = content.slice(0, index + 1);
+		let prevContent = content.slice(0, index);
 		let nextContent = content.slice(index + 1);
+
 		filesStore.update((curr) => {
 			return {
 				...curr,
 				openFile: {
 					...curr.openFile,
-					content: [...prevContent, '', ...nextContent]
+					content: [
+						...prevContent,
+						content[index].slice(0, carretPosition),
+						content[index].slice(carretPosition),
+						...nextContent
+					]
 				},
 				activeLine: index + 1
 			};

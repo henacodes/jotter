@@ -5,6 +5,7 @@
 	import Tabs from './Tabs.svelte';
 	import { addNextNewLine, updateContent, removeCurrentLine } from '../fileStoreFuntions';
 
+	let inputFields = {};
 	const handleInput = (e, index) => {
 		filesStore.update((curr) => {
 			return {
@@ -18,9 +19,10 @@
 
 	const handleEnterClick = (e) => {
 		const openFile = $filesStore.openFile;
+		const carretPostion = inputFields[`input_${$filesStore.activeLine}_field`].selectionStart;
 		if (e.key === 'Enter') {
 			if (openFile.id) {
-				addNextNewLine($filesStore.activeLine);
+				addNextNewLine($filesStore.activeLine, carretPostion);
 				setTimeout(() => {
 					document.getElementById(`input_${$filesStore.activeLine}`).focus();
 				}, 20);
@@ -68,6 +70,7 @@
 			<div class=" flex w-full items-center justify-center">
 				<p class=" flex-[0.03] text-center">{i + 1}</p>
 				<input
+					bind:this={inputFields[`input_${i}_field`]}
 					on:focus={() => handleFocus(i)}
 					on:keydown={(e) => handleBackspace(e, i)}
 					id={`input_${i}`}
