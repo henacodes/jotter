@@ -1,4 +1,5 @@
 import filesStore from '../store/filesStore';
+import uiStore from '../store/uiStore';
 import { v4 as uuidv4 } from 'uuid';
 
 export const createFile = (fileName) => {
@@ -12,7 +13,17 @@ export const createFile = (fileName) => {
 	});
 
 	if (fileExists) {
-		console.log('file exists');
+		uiStore.update((curr) => {
+			return {
+				...curr,
+				notification: {
+					title: 'Invalid file name ',
+					message: 'Filename already exists',
+					show: true
+				}
+			};
+		});
+
 		return;
 	}
 
