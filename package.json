@@ -25,6 +25,7 @@
 	},
 	"type": "module",
 	"dependencies": {
+		"monaco-editor": "^0.49.0",
 		"phosphor-svelte": "^1.4.2",
 		"prismjs": "^1.29.0",
 		"uuid": "^9.0.1"

@@ -1,5 +1,5 @@
-<script>
-	import { onMount } from 'svelte';
+<script lang="ts">
+	import { onMount, onDestroy } from 'svelte';
 	import '../app.css';
 	import Navbar from '../lib/components/Navbar.svelte';
 	import Notification from '../lib/components/Notification.svelte';
