@@ -19,14 +19,14 @@
 	};
 </script>
 
-<div class=" flex w-[80vw] overflow-auto h-[6.8vh]">
+<div class=" flex w-[82.5vw] overflow-auto h-[7vh] bg-[#1e1e1e]">
 	{#each $filesStore.tabs as tab}
 		<button
 			on:click={() => {
 				openFile(tab);
 				openEditorForCurrentFile();
 			}}
-			class={'btn rounded-none min-w-[15rem] flex items-center justify-between btn-square px-4 ' +
+			class={'btn rounded-none min-w-[15rem] flex items-center justify-between btn-square px-4 bg-[#1a1a1a] hover:bg-[#2e2e2e]   ' +
 				($filesStore.openFile.id === tab.id ? 'border-b-2 border-b-primary' : ' ')}
 		>
 			<div class=" flex items-center">

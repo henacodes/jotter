@@ -6,6 +6,7 @@
 	import filesStore from '../store/filesStore';
 	import { getMimeType } from '../lib/helpers';
 	import { persistOpenFileWithFile } from '../lib/fileStoreFuntions';
+
 	let editorContainer = null;
 	let editor;
 	let monaco;
@@ -30,12 +31,18 @@
 	}
 
 	function openEditorForCurrentFile() {
-		if ($filesStore.tabs.length < 1) {
-			console.log('tabs dont exist');
+		// this function is gonna called everytime we cretae new file, open file from sidebar or change tabs
+		// in short whenever we update the openFile in files store
+
+		if (!editor) {
+			// initialize editor for the fist time
+			// probably when the first file is created
 			editor = monaco.editor.create(editorContainer, {
 				theme: 'vs-dark'
 			});
 		}
+
+		editorContainer.style.display = 'block';
 
 		let model = $filesStore.monacoModels.filter(
 			(x) => x.extension === $filesStore.openFile.extension
@@ -64,49 +71,27 @@
 	}
 
 	function destroyEditor() {
-		//monaco?.editor.getModels().forEach((model) => model.dispose());
-		editor?.dispose();
+		// set the editor display none if no open files exist
+		editorContainer.style.display = 'none';
 	}
 
 	onMount(async () => {
-		// Import our 'monaco.ts' file here
-		// (onMount() will only be executed in the browser, which is what we want)
 		monaco = (await import('../lib/monaco')).default;
-
-		// Your monaco instance is ready, let's display some code!
-		/*const editor = monaco.editor.create(editorContainer, {
-			theme: 'vs-dark'
-		});
-		const model = monaco.editor.createModel(
-			"console.log('Hello from Monaco! (the editor, not the city...)') \n another line /n more line ",
-			'javascript'
-		);
-
-		model.onDidChangeContent((stuff, otherstuff) => {
-			console.log(stuff);
-			console.log(otherstuff);
-			console.log('chaginnnn');
-		});
-
-		const anotherModel = monaco.editor.createModel("echo 'hello world' ", 'php');
-
-		editor.setModel(model);
-		//editor.setModel(anotherModel);
-		*/
 	});
 
-	/*onDestroy(() => {
+	onDestroy(() => {
+		// dispose the editor and the model if the component gets destoyed
 		monaco?.editor.getModels().forEach((model) => model.dispose());
 		editor?.dispose();
-	});*/
+	});
 </script>
 
 <div class=" w-[100vw] flex flex-[0.96]">
 	<Sidebar {newFileModel} {openEditorForCurrentFile} />
 	{#if $filesStore.openFile}
-		<div class="w-[90vw] h-[93vh] flex flex-col">
+		<div class="w-[90vw] h-full flex flex-col">
 			<Tabs {openEditorForCurrentFile} {destroyEditor} />
-			<div bind:this={editorContainer} class="w-[82.6vw] h-[86.2vh]"></div>
+			<div bind:this={editorContainer} class="w-[82.6vw] h-[93vh]"></div>
 		</div>
 	{/if}
 </div>

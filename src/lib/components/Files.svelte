@@ -14,11 +14,11 @@
 	};
 </script>
 
-<ul class="menu bg-base-200 rounded-none mt-4">
+<ul class="menu bg-[#1c1c1c] rounded-md mt-4">
 	{#each $filesStore.files as file}
 		<li
 			on:click={() => handleFileOpen(file)}
-			class={'my-2 ' + ($filesStore.openFile.id === file.id ? ' border-l  border-l-primary' : ' ')}
+			class={'my-2 ' + ($filesStore.openFile.id === file.id ? ' border-l border-l-primary  ' : ' ')}
 		>
 			<a class=" ">
 				<img src={returnFileIcon(file.extension)} alt="" class=" w-[20px]" />
