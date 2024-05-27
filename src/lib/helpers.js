@@ -5,7 +5,7 @@ export const returnFileIcon = (ext) => {
 		case 'jsx':
 			return 'https://cdn.jsdelivr.net/gh/devicons/devicon/icons/react/react-original.svg';
 		case 'svelte':
-			return 'https://cdn.jsdelivr.net/gh/devicons/devicon/icons/svelte/svelte-original.svg';
+			return 'https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/svelte/svelte-original.svg';
 		case 'ts':
 			return 'https://cdn.jsdelivr.net/gh/devicons/devicon/icons/typescript/typescript-original.svg';
 		case 'tsx':
@@ -20,9 +20,9 @@ export const returnFileIcon = (ext) => {
 		case 'json':
 			return 'https://cdn.jsdelivr.net/gh/devicons/devicon/icons/nodejs/nodejs-original.svg';
 		case 'php':
-			return 'https://cdn.jsdelivr.net/gh/devicons/devicon/icons/php/php-plain.svg';
+			return 'https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/php/php-original.svg';
 		case 'py':
-			return 'https://cdn.jsdelivr.net/gh/devicons/devicon/icons/python/python-original.svg';
+			return 'https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/python/python-original.svg';
 		case 'java':
 			return 'https://cdn.jsdelivr.net/gh/devicons/devicon/icons/java/java-plain-wordmark.svg';
 		case 'cpp':

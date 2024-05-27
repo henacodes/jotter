@@ -3,10 +3,14 @@
 	import filesStore from '../../store/filesStore';
 	import { returnFileIcon } from '../helpers';
 	import { openFile, addToTabs } from '../fileStoreFuntions';
+
+	export let openEditorForCurrentFile;
+
 	const handleFileOpen = (file) => {
 		//console.log(file);
 		openFile(file);
 		addToTabs(file);
+		openEditorForCurrentFile();
 	};
 </script>
 

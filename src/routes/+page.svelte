@@ -30,7 +30,7 @@
 	}
 
 	function openEditorForCurrentFile() {
-		if ($filesStore.tabs.length < 2) {
+		if ($filesStore.tabs.length < 1) {
 			console.log('tabs dont exist');
 			editor = monaco.editor.create(editorContainer, {
 				theme: 'vs-dark'
@@ -64,7 +64,7 @@
 	}
 
 	function destroyEditor() {
-		monaco?.editor.getModels().forEach((model) => model.dispose());
+		//monaco?.editor.getModels().forEach((model) => model.dispose());
 		editor?.dispose();
 	}
 
@@ -102,10 +102,10 @@
 </script>
 
 <div class=" w-[100vw] flex flex-[0.96]">
-	<Sidebar {newFileModel} />
+	<Sidebar {newFileModel} {openEditorForCurrentFile} />
 	{#if $filesStore.openFile}
 		<div class="w-[90vw] h-[93vh] flex flex-col">
-			<Tabs {openEditorForCurrentFile} />
+			<Tabs {openEditorForCurrentFile} {destroyEditor} />
 			<div bind:this={editorContainer} class="w-[82.6vw] h-[86.2vh]"></div>
 		</div>
 	{/if}

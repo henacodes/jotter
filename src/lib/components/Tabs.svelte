@@ -5,12 +5,16 @@
 	import { closeFile, openFile } from '../fileStoreFuntions';
 
 	export let openEditorForCurrentFile;
+	export let destroyEditor;
 	const closeTab = (id) => {
 		closeFile(id);
 		const tabs = $filesStore.tabs;
 		if (tabs.length) {
 			openFile(tabs[0]);
 			openEditorForCurrentFile();
+		} else {
+			// if there are no more tabs, destroy the editor
+			destroyEditor();
 		}
 	};
 </script>

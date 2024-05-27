@@ -11,7 +11,7 @@
 	import { getMimeType } from '../helpers';
 
 	export let newFileModel;
-
+	export let openEditorForCurrentFile;
 	// store functions
 	import { createFile, deleteFile, openFile, addToTabs } from '../fileStoreFuntions';
 	let fileName = '';
@@ -24,6 +24,7 @@
 		createFile(fileName);
 		let file = $filesStore.files[$filesStore.files.length - 1];
 		openFile(file);
+		newFileModel(file);
 		addToTabs(file);
 		newFileModel(file);
 		fileName = '';
@@ -74,7 +75,7 @@
 		</button>
 	</div>
 	{#if $filesStore.files.length}
-		<Files />
+		<Files {openEditorForCurrentFile} />
 	{/if}
 </div>
 
