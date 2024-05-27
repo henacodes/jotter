@@ -51,6 +51,7 @@ export const createFile = (fileName) => {
 // add file to openFile property of the store and set the active line to be the last line
 export const openFile = (file) => {
 	filesStore.update((curr) => {
+		console.log(curr.files);
 		return {
 			...curr,
 			openFile: file,
@@ -107,6 +108,12 @@ export const persistOpenFileWithFile = (file) => {
 		return {
 			...curr,
 			files: curr.files.map((f) => {
+				if (f.id !== file.id) {
+					return f;
+				}
+				return file;
+			}),
+			tabs: curr.tabs.map((f) => {
 				if (f.id !== file.id) {
 					return f;
 				}

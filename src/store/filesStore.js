@@ -4,5 +4,6 @@ export default writable({
 	files: [],
 	openFile: {},
 	tabs: [],
-	activeLine: -1
+	activeLine: -1,
+	monacoModels: []
 });

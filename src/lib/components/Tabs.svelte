@@ -3,19 +3,25 @@
 	import { returnFileIcon } from '../helpers';
 	import { X } from 'phosphor-svelte';
 	import { closeFile, openFile } from '../fileStoreFuntions';
+
+	export let openEditorForCurrentFile;
 	const closeTab = (id) => {
 		closeFile(id);
 		const tabs = $filesStore.tabs;
 		if (tabs.length) {
 			openFile(tabs[0]);
+			openEditorForCurrentFile();
 		}
 	};
 </script>
 
-<div class=" flex w-[80vw] overflow-auto">
+<div class=" flex w-[80vw] overflow-auto h-[6.8vh]">
 	{#each $filesStore.tabs as tab}
 		<button
-			on:click={() => openFile(tab)}
+			on:click={() => {
+				openFile(tab);
+				openEditorForCurrentFile();
+			}}
 			class={'btn rounded-none min-w-[15rem] flex items-center justify-between btn-square px-4 ' +
 				($filesStore.openFile.id === tab.id ? 'border-b-2 border-b-primary' : ' ')}
 		>

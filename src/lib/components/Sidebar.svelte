@@ -10,6 +10,8 @@
 	import Files from './Files.svelte';
 	import { getMimeType } from '../helpers';
 
+	export let newFileModel;
+
 	// store functions
 	import { createFile, deleteFile, openFile, addToTabs } from '../fileStoreFuntions';
 	let fileName = '';
@@ -23,6 +25,7 @@
 		let file = $filesStore.files[$filesStore.files.length - 1];
 		openFile(file);
 		addToTabs(file);
+		newFileModel(file);
 		fileName = '';
 	};
 	const handleFileDelete = () => {
